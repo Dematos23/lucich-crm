@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -10,7 +11,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
-import { Icons } from '@/components/icons';
 import {
   Form,
   FormControl,
@@ -63,7 +63,7 @@ export default function LoginPage() {
     <div className="flex min-h-screen w-full items-center justify-center bg-warm-gray p-4">
       <div className="w-full max-w-md space-y-8">
         <div className="flex flex-col items-center text-center">
-          <Icons.logo className="h-16 w-16 text-primary" />
+           <Image src="/logo-login.png" alt="Lucich CRM logo" width="64" height="64" />
           <h1 className="mt-4 text-3xl font-bold tracking-tight text-foreground">
             Lucich CRM
           </h1>

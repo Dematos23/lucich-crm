@@ -20,7 +20,7 @@ import {
   SidebarMenuButton,
   SidebarFooter,
 } from "@/components/ui/sidebar";
-import { Icons } from "@/components/icons";
+import Image from "next/image";
 
 const navItems = [
   { href: "/funnel", label: "Funnel", icon: KanbanSquare },
@@ -44,7 +44,12 @@ export function SidebarNav() {
     <>
       <SidebarHeader>
         <Link href="/funnel" className="flex items-center gap-2.5">
-          <Icons.logo className="h-8 w-8 text-primary" />
+          <Image
+            src="/logo-small.png"
+            alt="Lucich CRM"
+            width={32}
+            height={32}
+          />
           <div className="group-data-[collapsible=icon]:hidden">
             <h2 className="text-lg font-semibold text-sidebar-foreground">
               Lucich CRM
