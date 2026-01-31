@@ -1,6 +1,7 @@
 // src/firebase/firebase.ts
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAhDH-arZ803YT89PkXmVr6QDNdwfCNEq4",
@@ -12,7 +13,10 @@ const firebaseConfig = {
   };
 
 // Inicializar Firebase
-const app = initializeApp(firebaseConfig);
+const app = !getApps().length ? initializeApp(firebaseConfig) : getAoo();
 
 // Inicializar Firestore
-export const db = getFirestore(app);
+const db = getFirestore(app);
+const authClient = getAuth(app);
+
+export { app, db, authClient };

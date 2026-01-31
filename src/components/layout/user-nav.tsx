@@ -1,9 +1,7 @@
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+'use client';
+
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,14 +10,17 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { users } from "@/lib/data"; // Mock data
-import { PlaceHolderImages } from "@/lib/placeholder-images";
+} from '@/components/ui/dropdown-menu';
+import { users } from '@/lib/data'; // Mock data
+import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { logout } from '@/lib/auth/actions';
+import { useTransition } from 'react';
 
 export function UserNav() {
   // Mocking the current user
   const currentUser = users[0];
-  const userAvatar = PlaceHolderImages.find(p => p.id === 'user-avatar-1');
+  const userAvatar = PlaceHolderImages.find((p) => p.id === 'user-avatar-1');
+  const [isPending, startTransition] = useTransition();
 
   return (
     <DropdownMenu>
@@ -34,7 +35,9 @@ export function UserNav() {
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">{currentUser.name}</p>
+            <p className="text-sm font-medium leading-none">
+              {currentUser.name}
+            </p>
             <p className="text-xs leading-none text-muted-foreground">
               {currentUser.email}
             </p>
@@ -42,15 +45,19 @@ export function UserNav() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            Perfil
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            Ajustes
-          </DropdownMenuItem>
+          <DropdownMenuItem>Perfil</DropdownMenuItem>
+          <DropdownMenuItem>Ajustes</DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() =>
+            startTransition(async () => {
+              await logout();
+            })
+          }
+          disabled={isPending}
+          className="cursor-pointer"
+        >
           Cerrar sesión
         </DropdownMenuItem>
       </DropdownMenuContent>

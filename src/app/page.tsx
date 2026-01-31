@@ -18,6 +18,10 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { app as firebaseApp } from '@/firebase/firebase';
+import { login } from '@/lib/auth/actions';
+
 
 const loginSchema = z.object({
   email: z.string().email({ message: 'Por favor, introduce un email válido.' }),
@@ -29,6 +33,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 export default function LoginPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const auth = getAuth(firebaseApp);
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -38,25 +43,36 @@ export default function LoginPage() {
     },
   });
 
-  const onSubmit = (data: LoginFormValues) => {
+  const onSubmit = async (data: LoginFormValues) => {
     setIsLoading(true);
-    // Mock authentication
-    setTimeout(() => {
-      if (data.email === 'test@lucich.com' && data.password === 'password') {
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+      const idToken = await userCredential.user.getIdToken();
+
+      const result = await login(idToken);
+
+      if (result.success) {
         toast({
           title: 'Inicio de sesión exitoso',
           description: 'Bienvenido de vuelta.',
         });
         router.push('/funnel');
       } else {
-        toast({
-          variant: 'destructive',
-          title: 'Error de autenticación',
-          description: 'El email o la contraseña son incorrectos.',
-        });
-        setIsLoading(false);
+        throw new Error(result.error || 'El login ha fallado');
       }
-    }, 1000);
+    } catch (error: any) {
+      toast({
+        variant: 'destructive',
+        title: 'Error de autenticación',
+        description:
+          'El email o la contraseña son incorrectos.',
+      });
+      setIsLoading(false);
+    }
   };
 
   return (
