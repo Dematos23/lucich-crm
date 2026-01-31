@@ -1,22 +1,19 @@
-// src/firebase/firebase.ts
+// src/firebase/firebase.client.ts
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAhDH-arZ803YT89PkXmVr6QDNdwfCNEq4",
-    authDomain: "studio-5239946753-59ca3.firebaseapp.com",
-    projectId: "studio-5239946753-59ca3",
-    storageBucket: "studio-5239946753-59ca3.firebasestorage.app",
-    messagingSenderId: "129934965473",
-    appId: "1:129934965473:web:8b0777b6b47713e30c55a0"
-  };
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY!,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN!,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID!,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET!,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID!,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID!,
+};
 
-// Inicializar Firebase
-const app = !getApps().length ? initializeApp(firebaseConfig) : getAoo();
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
-// Inicializar Firestore
-const db = getFirestore(app);
-const authClient = getAuth(app);
-
-export { app, db, authClient };
+export const db = getFirestore(app);
+export const authClient = getAuth(app);
+export { app };
