@@ -2,7 +2,7 @@
 import dotenv from 'dotenv';
 import type { Auth } from 'firebase-admin/auth';
 import type { Firestore } from 'firebase-admin/firestore';
-import { User } from '../src/lib/types';
+import { UserProfile } from '../src/lib/types';
 
 dotenv.config({ path: process.cwd() + '/.env.local', override: true });
 
@@ -36,7 +36,7 @@ async function seedAdminUser(auth: Auth, firestore: Firestore) {
     console.log('Admin claims set.');
 
     // Create user document in Firestore
-    const userDoc: User = {
+    const userDoc: UserProfile = {
       id: userRecord.uid,
       firstName: 'Diego',
       lastName: 'Matos',

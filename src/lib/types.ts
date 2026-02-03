@@ -1,42 +1,82 @@
 
+export type UserRole = 'admin' | 'advisor' | 'viewer' | 'user';
+
 export interface User {
+  uid: string;
+  name: string;
+  email: string;
+  role: UserRole;
+  avatarUrl?: string;
+}
+
+export interface UserProfile {
   id: string;
   firstName: string;
   lastName: string;
   email: string;
+  role: UserRole;
   avatarUrl?: string;
-  role: 'admin' | 'user';
 }
+
+export type OpportunityStage =
+  | 'lead'
+  | 'diagnostico'
+  | 'comparativo'
+  | 'cotizacion'
+  | 'renovacion'
+  | 'emision';
+
+export const opportunityStages: OpportunityStage[] = [
+  'lead',
+  'diagnostico',
+  'comparativo',
+  'cotizacion',
+  'renovacion',
+  'emision',
+];
+
+export const stageLabels: Record<OpportunityStage, string> = {
+  lead: 'Lead',
+  diagnostico: 'Diagnostico',
+  comparativo: 'Comparativo',
+  cotizacion: 'Cotizacion',
+  renovacion: 'Renovacion',
+  emision: 'Emision',
+};
+
+export type OpportunityPriority = 'baja' | 'media' | 'alta';
+export type OpportunityStatus = 'open' | 'won' | 'lost';
 
 export interface Opportunity {
   id: string;
-  name: string;
-  stage: 'lead' | 'qualified' | 'proposal' | 'negotiation' | 'closed-won' | 'closed-lost';
-  value: number;
-  closeDate: string;
-  clientId: string;
-  clientName?: string;
-  salesRepId: string;
-  salesRepName?: string; 
-  priority: 'low' | 'medium' | 'high';
-  lastContact: string;
+  title: string;
+  client: Client;
+  stage: OpportunityStage;
+  priority: OpportunityPriority;
+  valueEstimate: number;
+  currency: string;
+  owner: User;
+  status: OpportunityStatus;
+  createdAt: string;
+  updatedAt: string;
+  expectedCloseDate?: string;
+  renewalDate?: string;
 }
 
 export interface Client {
   id: string;
-  name: string;
-  email: string;
-  phone?: string;
+  legalName: string;
+  tradeName?: string;
+  ruc?: string;
   industry?: string;
-  contactPerson?: string;
-  lastContactDate?: string;
+  phone?: string;
+  email: string;
+  address?: string;
+  tags?: string[];
   status: 'active' | 'inactive' | 'lead';
-}
-
-export interface FunnelColumn {
-  id: 'lead' | 'qualified' | 'proposal' | 'negotiation' | 'closed-won' | 'closed-lost';
-  title: string;
-  opportunities: Opportunity[];
+  owner: User;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Activity {

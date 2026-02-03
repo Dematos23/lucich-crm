@@ -6,7 +6,6 @@ import {
   KanbanSquare,
   Briefcase,
   Users,
-  HardDrive,
   Settings,
 } from "lucide-react";
 
@@ -29,7 +28,6 @@ const navItems = [
 ];
 
 const secondaryNavItems = [
-    { href: "/files", label: "Archivos", icon: HardDrive },
     { href: "/settings", label: "Ajustes", icon: Settings },
 ];
 

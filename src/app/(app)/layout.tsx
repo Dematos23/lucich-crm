@@ -11,7 +11,7 @@ export default function AppLayout({
 }) {
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen">
+      <div className="flex min-h-screen w-full min-w-0 overflow-x-hidden">
         <Sidebar
           variant="sidebar"
           collapsible="offcanvas"

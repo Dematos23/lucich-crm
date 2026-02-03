@@ -96,7 +96,11 @@ const columns: ColumnDef<Opportunity>[] = [
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
+            <Button
+              id={`opportunity-actions-${row.original.id}`}
+              variant="ghost"
+              className="h-8 w-8 p-0"
+            >
               <span className="sr-only">Abrir menu</span>
               <MoreHorizontal className="h-4 w-4" />
             </Button>
