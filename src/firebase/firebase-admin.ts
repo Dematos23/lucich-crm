@@ -4,9 +4,18 @@ const projectId = process.env.FIREBASE_PROJECT_ID;
 const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
 const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
 
-if (!projectId || !clientEmail || !privateKey) {
-  throw new Error("❌ Faltan variables de entorno de Firebase Admin");
+if (!projectId) {
+  throw new Error("❌ Falta la variable de entorno FIREBASE_PROJECT_ID");
 }
+
+if (!clientEmail) {
+  throw new Error("❌ Falta la variable de entorno FIREBASE_CLIENT_EMAIL");
+}
+
+if (!privateKey) {
+  throw new Error("❌ Falta la variable de entorno FIREBASE_PRIVATE_KEY");
+}
+
 
 if (!admin.apps.length) {
   admin.initializeApp({

@@ -1,11 +1,12 @@
 
 import dotenv from 'dotenv';
-import { auth, firestore } from '../src/firebase/firebase-admin';
+import type { Auth } from 'firebase-admin/auth';
+import type { Firestore } from 'firebase-admin/firestore';
 import { User } from '../src/lib/types';
 
 dotenv.config({ path: process.cwd() + '/.env.local', override: true });
 
-async function seedAdminUser() {
+async function seedAdminUser(auth: Auth, firestore: Firestore) {
   const email = 'dematos23@gmail.com';
   const password = 'alessandra';
 
@@ -53,7 +54,8 @@ async function seedAdminUser() {
 }
 
 async function main() {
-  await seedAdminUser();
+  const { auth, firestore } = await import('../src/firebase/firebase-admin');
+  await seedAdminUser(auth, firestore);
 }
 
 main().catch((err) => {
