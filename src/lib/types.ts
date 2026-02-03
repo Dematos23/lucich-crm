@@ -1,103 +1,59 @@
-export type User = {
-  uid: string;
+
+export interface User {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  avatarUrl?: string;
+  role: 'admin' | 'user';
+}
+
+export interface Opportunity {
+  id: string;
+  name: string;
+  stage: 'lead' | 'qualified' | 'proposal' | 'negotiation' | 'closed-won' | 'closed-lost';
+  value: number;
+  closeDate: string;
+  clientId: string;
+  clientName?: string;
+  salesRepId: string;
+  salesRepName?: string; 
+  priority: 'low' | 'medium' | 'high';
+  lastContact: string;
+}
+
+export interface Client {
+  id: string;
   name: string;
   email: string;
-  role: 'admin' | 'advisor' | 'viewer';
-  avatarUrl: string;
-};
-
-export type Client = {
-  id: string;
-  legalName: string;
-  tradeName?: string;
-  ruc?: string;
+  phone?: string;
   industry?: string;
-  phone: string;
-  email: string;
-  address?: string;
-  tags: string[];
-  status: 'active' | 'inactive';
-  owner: User;
-  createdAt: string;
-  updatedAt: string;
-};
-
-export type Contact = {
-  id: string;
-  clientId: string;
-  fullName: string;
-  roleTitle: string;
-  email: string;
-  phone: string;
-  isPrimary: boolean;
-  notes?: string;
-  createdAt: string;
-  updatedAt: string;
-};
-
-export type OpportunityStage = 'lead' | 'diagnostico' | 'cotizacion' | 'comparativo' | 'emision' | 'renovacion';
-export const opportunityStages: OpportunityStage[] = ['lead', 'diagnostico', 'cotizacion', 'comparativo', 'emision', 'renovacion'];
-export const stageLabels: Record<OpportunityStage, string> = {
-  lead: 'Lead',
-  diagnostico: 'Diagnóstico',
-  cotizacion: 'Cotización',
-  comparativo: 'Comparativo',
-  emision: 'Emisión',
-  renovacion: 'Renovación',
-};
-
-
-export type OpportunityPriority = 'baja' | 'media' | 'alta';
-
-export type Opportunity = {
-  id: string;
-  title: string;
-  client: Client;
-  stage: OpportunityStage;
-  priority: OpportunityPriority;
-  valueEstimate: number;
-  currency: 'PEN' | 'USD';
-  expectedCloseDate?: string;
-  renewalDate?: string;
-  owner: User;
-  status: 'open' | 'won' | 'lost';
-  createdAt: string;
-  updatedAt: string;
-};
-
-export type Activity = {
-  id: string;
-  type: 'call' | 'email' | 'meeting' | 'whatsapp' | 'task';
-  summary: string;
-  dueDate?: string;
-  done: boolean;
-  createdAt: string;
-  createdBy: User;
-};
-
-export type Note = {
-  id: string;
-  text: string;
-  createdAt: string;
-  createdBy: User;
-};
-
-export type Quote = {
-  id: string;
-  insurerName: string;
-  premium: number;
-  deductible: number;
-  keyCoverageBullets: string[];
-  exclusionsSummary: string;
-  recommendationFlag: boolean;
-};
-
-export type AppFile = {
-    id: string;
-    name: string;
-    url: string;
-    type: string;
-    size: number;
-    uploadedBy: User;
-    createdAt: string;
+  contactPerson?: string;
+  lastContactDate?: string;
+  status: 'active' | 'inactive' | 'lead';
 }
+
+export interface FunnelColumn {
+  id: 'lead' | 'qualified' | 'proposal' | 'negotiation' | 'closed-won' | 'closed-lost';
+  title: string;
+  opportunities: Opportunity[];
+}
+
+export interface Activity {
+  id: string;
+  type: 'call' | 'email' | 'meeting' | 'note';
+  date: string;
+  notes: string;
+  userId: string;
+  userName: string;
+}
+
+export interface Quote {
+    id: string;
+    opportunityId: string;
+    items: { description: string; quantity: number; price: number }[];
+    total: number;
+    status: 'draft' | 'sent' | 'accepted' | 'rejected';
+    validUntil: string;
+  }
+  
